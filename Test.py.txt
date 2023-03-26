@@ -1,0 +1,35 @@
+import requests
+from bs4 import BeautifulSoup
+
+# URL of the website to scrape
+url = "https://www.naukri.com/civil-engineering-jobs-in-india"
+
+# Make a GET request to the URL and store the response
+response = requests.get(url)
+
+# Parse the HTML content of the response using BeautifulSoup
+soup = BeautifulSoup(response.content, "html.parser")
+
+# Find all the job listings on the page
+jobs = soup.find_all("div", {"class": "jobTuple"})
+
+# Loop through each job and extract relevant information
+for job in jobs:
+    # Extract the job title
+    title = job.find("a", {"class": "title"}).text.strip()
+    # Extract the company name
+    company = job.find("a", {"class": "subTitle"}).text.strip()
+    # Extract the job location
+    location = job.find("li", {"class": "location"}).text.strip()
+    # Extract the job experience level
+    experience = job.find("li", {"class": "experience"}).text.strip()
+    # Extract the job salary (if available)
+    salary = job.find("li", {"class": "salary"}).text.strip()
+
+    # Print the extracted information
+    print("Job Title: ", title)
+    print("Company: ", company)
+    print("Location: ", location)
+    print("Experience: ", experience)
+    print("Salary: ", salary)
+    print()
